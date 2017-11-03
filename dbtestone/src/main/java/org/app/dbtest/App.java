@@ -8,7 +8,7 @@ public class App
     {
         System.out.println( "Hello World!" );
 
-        List<Employee> employees = new DBOperations().getEmployees();
+        /*List<Employee> employees = new DBOperations().getEmployees();
         System.out.print("EmpID | Employee Name | EmpSal");
         System.out.println();
         for(Employee emp:employees)
@@ -17,6 +17,7 @@ public class App
             System.out.print(emp.getEname()+"    | ");
             System.out.print(emp.geteSal());
             System.out.println();
-        }
+        }*/
+        new DBOperations().getDatafromDB();
     }
 }

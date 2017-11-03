@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name = "org.app.dbtest.Employee" table = "Employee">
+
+        <id name = "eId" type = "int" column = "eid"/>
+        <property name = "ename" column = "ename" type = "string"/>
+        <property name = "eSal" column = "esal" type = "double"/>
+    </class>
+</hibernate-mapping>

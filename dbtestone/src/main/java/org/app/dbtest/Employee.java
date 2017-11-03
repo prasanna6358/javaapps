@@ -5,7 +5,7 @@ public class Employee {
 
     private int eId;
     private String ename;
-    private String eSal;
+    private double eSal;
 
     public int geteId() {
         return eId;
@@ -23,11 +23,11 @@ public class Employee {
         this.ename = ename;
     }
 
-    public String geteSal() {
+    public double geteSal() {
         return eSal;
     }
 
-    public void seteSal(String eSal) {
+    public void seteSal(double eSal) {
         this.eSal = eSal;
     }
 

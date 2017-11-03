@@ -1,24 +1,27 @@
 package org.app.dbtest;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DBOperations {
 
-    public final Connection con;
+    public static Connection con;
 
     public DBOperations()
     {
-        con = DBConnect.getConnection();
+
     }
 
     public List<Employee> getEmployees()
     {
+        con = DBConnect.getConnection();
         List<Employee> employees = new ArrayList<Employee>();
         try{
             PreparedStatement prepareStatement= con.prepareStatement("select * from Employee");
@@ -28,7 +31,7 @@ public class DBOperations {
                 Employee employee = new Employee();
                 employee.seteId(rs.getInt(1));
                 employee.setEname(rs.getString(2));
-                employee.seteSal(rs.getString(3));
+                employee.seteSal(rs.getDouble(3));
                 employees.add(employee);
             }
         }
@@ -37,5 +40,21 @@ public class DBOperations {
             ex.printStackTrace();
         }
         return employees;
+    }
+
+    public  void getDatafromDB()
+    {
+        org.hibernate.cfg.Configuration configuration = new Configuration();
+        configuration.configure("hibernate.cfg.xml");
+        SessionFactory sessionFactory = configuration.buildSessionFactory();
+        Session session = sessionFactory.openSession();
+        Employee emp = (Employee)session.get("org.app.dbtest.Employee",14);
+        if(emp!=null) {
+            System.out.println(emp.getEname());
+            System.out.println(emp.geteSal());
+        }
+        else System.out.println("session not found");
+        session.close();
+        sessionFactory.close();
     }
 }
