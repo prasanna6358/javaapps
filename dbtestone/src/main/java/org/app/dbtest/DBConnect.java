@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.Scanner;
 
 public class DBConnect {
 
@@ -47,6 +48,30 @@ public class DBConnect {
                     e.printStackTrace();
                 }
                 return connection;
+        }
+    }
+
+    public  static void getTriplet()
+    {
+        Scanner scanner  = new Scanner(System.in);
+        int noofTests = scanner.nextInt();
+        int a,b,c;
+        for(int i=0;i<noofTests;i++)
+        {
+            scanner  = new Scanner(System.in);
+            String firstLine = scanner.nextLine().trim();
+            String[] str1 = firstLine.split(" ");
+            a = Integer.parseInt(str1[0]);
+            b = Integer.parseInt(str1[1]);
+            c = Integer.parseInt(str1[2]);
+            if(c*c==a*a+b*b)
+            {
+                System.out.println("YES");
+            }
+            else
+            {
+                System.out.println("NO");
+            }
         }
     }
 }

@@ -7,6 +7,22 @@ public class Employee {
     private String ename;
     private double eSal;
 
+    public Employee()
+    {
+
+    }
+    public Employee(String ename, double eSal)
+    {
+        this.ename=ename;
+        this.eSal=eSal;
+    }
+
+    public Employee(int eId, String ename, double eSal) {
+        this.eId = eId;
+        this.ename = ename;
+        this.eSal = eSal;
+    }
+
     public int geteId() {
         return eId;
     }
