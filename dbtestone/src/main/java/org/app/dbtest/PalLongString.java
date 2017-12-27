@@ -24,7 +24,7 @@ public class PalLongString {
                     largePal=item;
                 }
             }
-        System.out.println(largePal);
+        System.out.println(largePal);//it will print the large palindrome
         }
 
     public static String getStringReverse(String stringName)
