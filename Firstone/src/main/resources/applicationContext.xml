@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:c="http://www.springframework.org/schema/c"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:util="http://www.springframework.org/schema/util"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+               http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+               http://www.springframework.org/schema/context
+               http://www.springframework.org/schema/context/spring-context-3.0.xsd
+               http://www.springframework.org/schema/util
+               http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+    <context:annotation-config/>
+    <context:property-placeholder location="credentials.properties"/>
+
+    <bean id="studentbean" class="com.prasanna.billa.Student">
+        <property name="name" value="prasanna kumar"/>
+        <property name="phoneNo" value="8790394635"/>
+        <property name="address" >
+            <bean id="addressInnerBean" class="com.prasanna.billa.Address">
+                <property name="addrId" value="121"/>
+                <property name="location" value="secuderabd"/>
+            </bean>
+        </property>
+        <property name="courses">
+            <list>
+                <bean id="coursesBean1" class="com.prasanna.billa.Courses">
+                    <property name="courseId" value="1"/>
+                    <property name="courseName" value="Java"/>
+                </bean>
+                <bean id="coursesBean2" class="com.prasanna.billa.Courses" p:courseId="2" p:courseName="${courseName}">
+                    <!--<property name="courseId" value="2"/>
+                    <property name="courseName" value=".Net"/>-->
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <util:list id="listBean" list-class="java.util.ArrayList" value-type="java.lang.Integer">
+        <value>1</value><value>2</value><value>3</value><value>4</value>
+    </util:list>
+    <util:set id="setBean" set-class="java.util.HashSet"  value-type="java.lang.String">
+        <value>Ankit</value><value>Raman</value><value>Guresh</value><value>Prasanna</value>
+    </util:set>
+    <util:map id="mapBean" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object">
+        <entry key="name" value="prasanna"/><entry key="id" >
+        <value type="java.lang.Integer">121</value>
+    </entry>
+        <entry key="location" value="Hyderabad"/><entry key="company" value="IndustryArc"/>
+    </util:map>
+    <util:properties id="propBean" >
+        <prop key="dbName">MYSQL</prop><prop key="user">ROOT</prop><prop key="password">ABC123</prop>
+    </util:properties>
+
+
+    <bean scope="prototype" id="addressBean" class="com.prasanna.billa.Address" p:addrId="1" p:location="hyderabad" />
+
+    <bean id="bookBean" class="com.prasanna.billa.Book" scope="prototype" >
+        <constructor-arg type="java.lang.String" name="title" value="C-Language"/>
+        <constructor-arg type="java.lang.String" name="author" value="Babbage"/>
+        <constructor-arg type="java.lang.Float" name="price" value="256.25"/>
+    </bean>
+
+    <context:component-scan base-package="com.prasanna.billa"/>
+
+    <!--For better performance provide constructor variable name, index and type for constructor injection-->
+
+    <bean id="bookcBean" class="com.prasanna.billa.Book" scope="prototype" c:title="python" c:author="godvic" c:price="258.12"/>
+
+
+    <!--
+    DB Beans
+    ===============================================================================================================================================
+    ===============================================================================================================================================
+    -->
+
+    <!--<bean id="dbObj" scope="singleton" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="url" value="jdbc:mysql://localhost:3306/billa"/>
+        <property name="username" value="root"/>
+        <property name="password" value="billaprasanna"/>
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" p:dataSource-ref="dbObj"/>
+
+   The above beans are for Spring JDBC Template
+-->
+
+    <bean id="dbObjORM" scope="singleton" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="url" value="jdbc:mysql://localhost:3306/Mule?useSSL=false"/>
+        <property name="username" value="root"/>
+        <property name="password" value="billaprasanna"/>
+    </bean>
+
+    <!--<bean id="jdbcTemplateORM" class="org.springframework.jdbc.core.JdbcTemplate" p:dataSource-ref="dbObjORM"/>-->
+
+    <bean id="sessionfactoryObject" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dbObjORM"/>
+        <property name="annotatedClasses" ref="objannotatedClasses"/>
+        <property name="hibernateProperties" ref="objhibernateProperties"/>
+    </bean>
+    
+    <bean id="HTObject"  class="org.springframework.orm.hibernate5.HibernateTemplate">
+        <property name="sessionFactory" ref="sessionfactoryObject"/>
+        <!--<property name="checkWriteOperations" value="false"/>-->
+    </bean>
+
+    <util:list id="objannotatedClasses" >
+        <value>datab.dbsql.dbsource.ORMUser</value>
+    </util:list>
+
+    <util:properties id="objhibernateProperties" >
+        <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+        <prop key="show_sql">true</prop>
+        <prop key="hibernate.format_sql">true</prop>
+        <prop key="connection.autoReconnect">true</prop>
+        <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+        <!--<prop key="hibernate.connection.autocommit">false</prop>-->
+    </util:properties>
+
+</beans>
